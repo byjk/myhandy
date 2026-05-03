@@ -18,6 +18,7 @@ NOTIFY_CMD = os.getenv('NOTIFY_CMD', 'notify-send -t 1 -h boolean:transient:true
 EXIT_WORD = os.getenv('EXIT_WORD', 'Выход.').lower()
 MODEL_NAME = os.getenv('MODEL_NAME', 'gigaam-v3-e2e-ctc')
 MODEL_PATH = os.getenv('MODEL_PATH', './models')
+MODEL_QUANT = os.getenv('MODEL_QUANT', 'int8')
 RECORD_PROCESS = None
 MODEL = None
 
@@ -70,10 +71,10 @@ def start_record():
 
 def recognize_text():
     global RECORD_PROCESS
-    global MODEL
     RECORD_PROCESS.terminate()
     RECORD_PROCESS.wait()
     RECORD_PROCESS = None
+    global MODEL
     text = MODEL.recognize(WAVE_FILE)
     pastetext(text)
 
@@ -96,11 +97,11 @@ def main():
         f.write(str(os.getpid()))
 
     signal.signal(signal.SIGUSR1, handler)
-
-    os.kill(os.getpid(), signal.SIGUSR1) # Запускаем запись сразу при старте
     
     global MODEL
-    MODEL = onnx_asr.load_model(MODEL_NAME, MODEL_PATH) # Загружаем модель ASR
+    MODEL = onnx_asr.load_model(MODEL_NAME, MODEL_PATH, quantization=MODEL_QUANT) # Загружаем модель ASR
+    
+    os.kill(os.getpid(), signal.SIGUSR1) # Запускаем запись сразу при старте (после загрузки модели)
 
     try:
         while True:

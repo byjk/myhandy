@@ -153,8 +153,9 @@ bindsym $mod+Shift+v exec uv --directory /path/to/myhandy/ run myhandy.py`
 - `BEEP_CMD` — команда для звукового сигнала (по умолчанию: `aplay /usr/share/sounds/sound-icons/glass-water-1.wav`)
 - `NOTIFY_CMD` — команда для уведомлений (по умолчанию: `notify-send -t 1 -h boolean:transient:true`)
 - `EXIT_WORD` — слово для завершения работы скрипта (по умолчанию: `Выход.`)
-- `MODEL_NAME` — имя модели ASR (по умолчанию: `gigaam-v3-e2e-ctc`, но полный список тут https://istupakov.github.io/onnx-asr/usage/#supported-model-names + модель автоматически будет скачана c hugginface)
+- `MODEL_NAME` — имя модели ASR (по умолчанию: `gigaam-v3-e2e-ctc`, будет скачана при первом запуске c hugginface ( ~215Mb ). Список моделей можно посмотреть тут https://istupakov.github.io/onnx-asr/usage/#supported-model-names )
 - `MODEL_PATH` — путь к директории с моделью (по умолчанию: `./models`)
+- `MODEL_QUANT` — тип квантования модели (по умолчанию: `int8`). Возможные значения: `int8` (8-битное квантование), `` (без квантования). Квантование позволяет уменьшить размер модели и ускорить работу, но может немного снизить точность распознавания.
 
 
 ## Устранение неполадок
