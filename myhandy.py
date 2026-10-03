@@ -4,11 +4,14 @@ import os
 import onnx_asr
 import subprocess
 import pyperclip
+from dotenv import load_dotenv
 if sys.platform == "linux":
     from evdev import UInput, ecodes as e
 else:
     import pyautogui
 
+# Загружаем .env из текущей директории; реальные env-переменные имеют приоритет
+load_dotenv()
 
 LOCK_FILE = os.getenv('LOCK_FILE', '/tmp/myhandy.lock')
 WAVE_FILE = os.getenv('WAVE_FILE', '/tmp/myhandyrecord.wav')
